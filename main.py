@@ -47,7 +47,7 @@ layout = [
     
     # Slider to show values from 0 to 100
     [
-        sg.Slider(range=(0, 100), orientation='h', key="-SLIDER-", default_value=0, size=(40, 20), resolution=1)
+        sg.Slider(range=(0, 100), orientation='h', key="-SLIDER-", default_value=0, size=(40, 20), resolution=1, disabled=True)
     ],
 
     # Add a row to center the buttons at the bottom
@@ -96,6 +96,10 @@ while True:
                 # Update both image elements
                 window["-LEFT-"].update(data=original_img_bytes)  # Display the original on the left
                 window["-RIGHT-"].update(data=modified_img_bytes)  # Display the modified on the right
+
+                #When a img file is opened unlock the slider so pixelization can happen
+                window["-SLIDER-"].update(value=0)  # Reset slider value to 0
+                window["-SLIDER-"].update(disabled=False)
                 
             except Exception as e:
                 sg.popup_error("Failed to open image:", e)
