@@ -64,7 +64,7 @@ final_layout = [
 ]
 
 # Create the window
-window = sg.Window("Image Viewer", final_layout, resizable=False, size=(1400, 700), background_color='lightgreen')
+window = sg.Window("Pixelator", final_layout, resizable=False, size=(1400, 700), background_color='lightgreen')
 
 # Variable to store the opened image and the modified image
 original_image = None
