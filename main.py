@@ -5,7 +5,8 @@ from PIL import Image
 import io
 
 # Function to convert PIL Image to bytes for PySimpleGUI
-def convert_to_bytes(image, max_size=(800, 600)):
+def convert_to_bytes(image, max_size=(500, 500)):
+    # Resize the image to the max size while maintaining aspect ratio
     image.thumbnail(max_size)
     with io.BytesIO() as output:
         image.save(output, format="PNG")
@@ -30,15 +31,28 @@ def save_image_as_png(image):
 
 # Define the layout of the GUI
 layout = [
-    [sg.Button("Open Image", key="-OPEN-"), sg.Button("Save Image", key="-SAVE-"), sg.Button("Exit")],
-    [sg.Image(key="-IMAGE-")]
+    [
+        sg.Column([
+            [sg.Text("Original Image")],
+            [sg.Image(key="-LEFT-")]
+        ], element_justification="center"),
+        
+        sg.VerticalSeparator(),
+        
+        sg.Column([
+            [sg.Text("Modified Image")],
+            [sg.Image(key="-RIGHT-")]
+        ], element_justification="center")
+    ],
+    [sg.Button("Open Image", key="-OPEN-"), sg.Button("Save Image", key="-SAVE-"), sg.Button("Exit")]
 ]
 
 # Create the window
-window = sg.Window("Image Viewer", layout, resizable=True)
+window = sg.Window("Image Viewer", layout, resizable=True, size=(1400, 700))
 
-# Variable to store the opened image
-current_image = None
+# Variable to store the opened image and the modified image
+original_image = None
+modified_image = None
 
 # Event loop
 while True:
@@ -56,17 +70,22 @@ while True:
         if file_path:
             try:
                 # Open the image using PIL
-                current_image = Image.open(file_path)
-                img_bytes = convert_to_bytes(current_image)
+                original_image = Image.open(file_path)
+                modified_image = original_image.copy()  # Make a copy of the image for modifications
                 
-                # Update the image element with the new image
-                window["-IMAGE-"].update(data=img_bytes)
+                # Convert both images to bytes for display
+                original_img_bytes = convert_to_bytes(original_image)
+                modified_img_bytes = convert_to_bytes(modified_image)
+                
+                # Update both image elements
+                window["-LEFT-"].update(data=original_img_bytes)  # Display the original on the left
+                window["-RIGHT-"].update(data=modified_img_bytes)  # Display the modified on the right
                 
             except Exception as e:
                 sg.popup_error("Failed to open image:", e)
     elif event == "-SAVE-":
-        if current_image:
-            save_image_as_png(current_image)
+        if modified_image:
+            save_image_as_png(modified_image)
         else:
             sg.popup("No image loaded", "Please open an image first.")
 
