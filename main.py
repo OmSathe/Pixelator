@@ -33,38 +33,38 @@ def save_image_as_png(image):
 layout = [
     [
         sg.Column([
-            [sg.Text("Original Image")],
-            [sg.Image(key="-LEFT-")]
-        ], element_justification="center", vertical_alignment="middle"),
+            [sg.Text("Input: Original Image", background_color="lightgreen", font=("Helvetica", 12, "bold"), text_color="black")],
+            [sg.Image(key="-LEFT-", background_color="lightgreen")]
+        ], element_justification="center", vertical_alignment="middle", pad=(40, 30), background_color="lightgreen"),
 
         sg.VerticalSeparator(),
 
         sg.Column([
-            [sg.Text("Modified Image")],
-            [sg.Image(key="-RIGHT-")]
-        ], element_justification="center", vertical_alignment="middle")
+            [sg.Text("Example Output: Modified Image", background_color="lightgreen", font=("Helvetica", 12, "bold"), text_color="black")],
+            [sg.Image(key="-RIGHT-", background_color="lightgreen")]
+        ], element_justification="center", vertical_alignment="middle", pad=(40, 30), background_color="lightgreen")
     ],
     
     # Slider to show values from 0 to 100
     [
-        sg.Slider(range=(0, 100), orientation='h', key="-SLIDER-", default_value=0, size=(40, 20), resolution=1, disabled=True)
+        sg.Slider(range=(0, 100), orientation='h', key="-SLIDER-", default_value=0, size=(40, 20), resolution=1, disabled=True, background_color=("lightgreen"), font= ("Helvetica", 12, "bold"), text_color="black")
     ],
 
     # Add a row to center the buttons at the bottom
     [
-        sg.Button("Open Image", key="-OPEN-", size=(15, 2)),  # Larger button size
-        sg.Button("Save Image", key="-SAVE-", size=(15, 2)),  # Larger button size
-        sg.Button("Exit", size=(15, 2))  # Larger button size
+        sg.Button("Open Image", key="-OPEN-", size=(15, 2), button_color=("black", "green"), font=("Helvetica", 12, "bold"), mouseover_colors="lightgreen"),  # Larger button size
+        sg.Button("Save Image", key="-SAVE-", size=(15, 2), button_color=("black", "green"), font=("Helvetica", 12, "bold"), mouseover_colors="lightgreen"),  # Larger button size
+        sg.Button("Exit", size=(15, 2), button_color=("black", "green"), font=("Helvetica", 12, "bold"), mouseover_colors="lightgreen")  # Larger button size
     ]
 ]
 
 # Wrap the entire layout inside a parent column to center the content in the window
 final_layout = [
-    [sg.Column(layout, element_justification='center', vertical_alignment='middle', expand_x=True, expand_y=True)]
+    [sg.Column(layout, element_justification='center', vertical_alignment='middle', expand_x=True, expand_y=True, background_color='black')]
 ]
 
 # Create the window
-window = sg.Window("Image Viewer", final_layout, resizable=False, size=(1400, 700))
+window = sg.Window("Image Viewer", final_layout, resizable=False, size=(1400, 700), background_color='lightgreen')
 
 # Variable to store the opened image and the modified image
 original_image = None
