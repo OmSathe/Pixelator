@@ -35,20 +35,36 @@ layout = [
         sg.Column([
             [sg.Text("Original Image")],
             [sg.Image(key="-LEFT-")]
-        ], element_justification="center"),
-        
+        ], element_justification="center", vertical_alignment="middle"),
+
         sg.VerticalSeparator(),
-        
+
         sg.Column([
             [sg.Text("Modified Image")],
             [sg.Image(key="-RIGHT-")]
-        ], element_justification="center")
+        ], element_justification="center", vertical_alignment="middle")
     ],
-    [sg.Button("Open Image", key="-OPEN-"), sg.Button("Save Image", key="-SAVE-"), sg.Button("Exit")]
+    
+    # Slider to show values from 0 to 100
+    [
+        sg.Slider(range=(0, 100), orientation='h', key="-SLIDER-", default_value=0, size=(40, 20), resolution=1)
+    ],
+
+    # Add a row to center the buttons at the bottom
+    [
+        sg.Button("Open Image", key="-OPEN-", size=(15, 2)),  # Larger button size
+        sg.Button("Save Image", key="-SAVE-", size=(15, 2)),  # Larger button size
+        sg.Button("Exit", size=(15, 2))  # Larger button size
+    ]
+]
+
+# Wrap the entire layout inside a parent column to center the content in the window
+final_layout = [
+    [sg.Column(layout, element_justification='center', vertical_alignment='middle', expand_x=True, expand_y=True)]
 ]
 
 # Create the window
-window = sg.Window("Image Viewer", layout, resizable=True, size=(1400, 700))
+window = sg.Window("Image Viewer", final_layout, resizable=False, size=(1400, 700))
 
 # Variable to store the opened image and the modified image
 original_image = None
